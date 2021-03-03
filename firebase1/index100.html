@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100000</title>
+
+    <script src="./index100.js"></script>
+</head>
+
+<body>
+
+
+    <button id="btnWrite">Setuj Storage na veliki JSON</button>
+    <br>
+    <br>
+    <br>
+    <button id="btnLog">console.log</button>
+
+</body>
+
+<script>
+    //console.log(myData);
+    document.getElementById("btnWrite").addEventListener('click', () => {
+
+        console.log(123);
+        localStorage.setItem("myDataString", JSON.stringify(myData));
+        //    localStorage.setItem("myDataString","");
+
+    })
+    document.getElementById("btnLog").addEventListener('click', () => {
+      //  console.log(localStorage.getItem("myDataString"));
+        var myDataObj = JSON.parse(localStorage.getItem("myDataString"));
+        console.log(myDataObj);
+        console.log(myDataObj[15].name1);
+    })
+
+</script>
+
+</html>

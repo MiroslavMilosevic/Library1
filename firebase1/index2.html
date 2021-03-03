@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Firebase</title>
+  <style>
+    img {
+      min-width: 200px;
+      min-height: 200px;
+      max-width: 200px;
+      max-height: 200px;
+      border: 5px solid black;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- <input type="text" id="ime"> <br>
+<input type="text" id="prezime"> <br>
+<button id="myButton">Unesi u Firebase</button> -->
+
+  <input id="imgName" type="text" placeholder="PictureName">
+  <br>
+  <!-- <input id="file" type="file" placeholder="Picture">
+<br> -->
+
+  <img src="" alt="Image Here" id="myImg">
+  <br>
+  <button id="selectBtn">Select Image</button>
+  <button id="uploadBtn">Unesi u Bazu</button>
+
+  <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-storage.js"></script>
+
+
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyAaNceFdTg4g-86wIR8R95q0eEOndG2ZmE",
+      authDomain: "myfirstproject-1b7bc.firebaseapp.com",
+      databaseURL: "https://myfirstproject-1b7bc-default-rtdb.firebaseio.com",
+      projectId: "myfirstproject-1b7bc",
+      storageBucket: "myfirstproject-1b7bc.appspot.com",
+      messagingSenderId: "932787225168",
+      appId: "1:932787225168:web:ee39b18787e4e9e4944755"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    let files = [];
+    let reader;
+    let imgName;
+    let imgUrl="";
+
+    let SelectBtn = document.getElementById("selectBtn");
+    SelectBtn.onclick = function (e) {
+      console.log(123);
+
+      let inputFile = document.createElement('input');
+      inputFile.type = "file";
+
+
+      inputFile.onchange = (e) => {
+
+        files = e.target.files;
+        reader = new FileReader();
+
+        reader.onload = () => {
+          document.getElementById('myImg').src = reader.result;
+        }
+        reader.readAsDataURL(files[0]);
+      }
+      inputFile.click();
+
+    }
+
+    /////__________________________________________ UPLOAD _______________________________________________
+
+    uploadBtn = document.getElementById("uploadBtn");
+    uploadBtn.onclick = function (e) {
+          
+
+      imgName = document.getElementById("imgName").value;
+      let uploadTask = firebase.storage().ref("Images/").put(files[0]);
+
+      uploadTask.on("state_changed",
+      
+      function(){
+
+         uploadTask.snapshot.ref.getDownloadURL().then((url)=>{
+           console.log(url);
+           imgUrl = url;
+
+         })
+           
+          firebase.database().ref("ImageUrls2/"+imgName).set({
+            
+          name:imgName,
+           url:imgUrl
+
+          })
+        //    alert("Slikaaaaaa")
+      }
+      
+      
+      
+      
+      
+      
+      )///on_state_changed
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  //  document.getElementById("myButton").addEventListener('click',()=>{
+  //      console.log("bla bal bla")
+  //         let nesto="nesto3"
+  //         let ime=document.getElementById("ime").value;
+  //         let prezime=document.getElementById("prezime").value;
+  //    //   console.log(ime, prezime);
+  //    firebase.database().ref('covek/'+nesto).set({
+  //          ime:ime,
+  //          prezime:prezime
+
+  //    })
+
+  //  })
+
+  </script>
+
+</body>
+
+</html>
